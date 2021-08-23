@@ -1,4 +1,5 @@
 import serial
+from icecream import ic
 
 ##############################################################################################
 # 시리얼 포트 열기
@@ -27,11 +28,38 @@ def openSerial(port, baudrate=9600, bytesize=serial.EIGHTBITS, parity=serial.PAR
 # 시리얼 포트 쓰기
 ##############################################################################################
 def writePort(ser, data):
-    pass
+    ser.write(data)
+
+def writePortUnicode(ser, data):    # 유니코드 인자를 받아서 bytes 타입으로 변환후 write
+    ser.write(data.encode())
 
 ##############################################################################################
 # 시리얼 포트 읽기
 ##############################################################################################
+# size 만큼 timeout 대기 후 read
 def read(ser, size=1, timeout=None):
-    pass
+    ser.timeout = timeout
+    readed = ser.read(size)
+    return readed
+
+# EOF 만날때까지 Read
+def readEOF(ser):
+    readed = ser.readline()
+    return readed
+
+# Exit code인 Ctrl + C 이 들어올때까지 Read
+def readUntilExitCode(ser, code=b'\x03'):
+    readed = b''
+    while True:
+        data = ser.read() # size default: 1
+        ic(data)
+        readed += data
+        if data == code:
+            return readed
+
+ic(__name__)
+# if __name__ == '__main__':
+#     pass
+
+ser = openSerial('com3')
 
