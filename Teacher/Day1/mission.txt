@@ -1,0 +1,25 @@
+# 01. 전원 (Command: k a)
+# ▶ 세트의 전원 켜짐/ 꺼짐을 제어합니다.
+# Transmission
+# [k][a][ ][Set ID][ ][Data][Cr]
+# Data	00: 꺼짐
+#       01: 켜짐
+# ex) ka 01 01, ka 01 00, ka 01 ff
+# Acknowledgement
+# [a][ ][Set ID][ ][OK/NG][Data][x]
+# ex) a 01 OK01x, a 01 OK00x, a 01 NG11x
+# * 디스플레이의 전원이 완전히 켜진 이후에 정상적인 Acknowledgement 신호가 돌아옵니다.
+#
+# ** Transmission/ Acknowledgement 신호 사이에는 일정시간 지연이 발생할 수 있습니다.
+
+ka 01 01 -> a 01 OK01x : 정상
+            a 01 NG11x : 비정상
+
+ka 01 00 -> a 01 OK00x : 정상
+            a 01 NG11x : 비정상
+
+ka 01 ff -> a 01 OK01x : On
+            a 01 OK00x : Off
+            a 01 NG11x : 비정상
+
+** 비정상 조건은 01, 00, ff가 아닌경우 **
