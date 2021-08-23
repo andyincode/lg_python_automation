@@ -12,7 +12,7 @@ jupyter notebook
 
 ### 2. Hello world
 ```
-print 'Hello World'
+print('Hello World')
 ```
 
 ### 3. Quotation in Python
