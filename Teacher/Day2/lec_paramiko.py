@@ -130,13 +130,13 @@ class MySSH():
             self.ftp_client = self.client.open_sftp()
 
         # # Only current folder only
-        # file_list = self.getFileListFromHost(srcFilePath)
+        # file_list = self.getFileListFromHost(srcFilePath) # ~/temp
         # for file in file_list:
-        #     file_path = os.path.join(srcFilePath, file)
+        #     file_path = os.path.join(srcFilePath, file) # ~/temp/a.txt ~/temp/b.txt
         #     file_path = file_path.replace('\\', '/')
         #     self.deleteHostFile(file_path)
 
-        # Delete all subflder recursive
+        # Delete all subfolder recursive
         file_attr_list = self.ftp_client.listdir_attr(srcFilePath)
         for file_attr in file_attr_list:
             path = os.path.join(srcFilePath, file_attr.filename)
@@ -197,7 +197,30 @@ if __name__ == '__main__':
         # ssh.sudoCommand('mkdir /mytemp')
 
         # 서버로 부터 파일 가져오기
-        ssh.getFromHost('./process_list.txt', 'process_list.txt')
+        # ssh.getFromHost('./process_list.txt', 'process_list.txt')
+
+        # 서버로 파일 올리기
+        # ssh.putToHost('./process_list.txt', 'process_list_2.txt')
+
+        # 서버에 파일 이름변경하기
+        # ssh.renameHostFile('./process_list.txt', 'process_list_old.txt') # 파일명 변경
+        # ssh.renameHostFile('./temp', './temp_old')                       # 폴더명 변경
+
+        # 서버의 파일 삭제
+        # ssh.deleteHostFile('./process_list_old.txt')
+
+        # 서버의 파일목록 가져오기
+        # file_list = ssh.getFileListFromHost('./temp_old')
+        # for file in file_list:
+        #     ic(file)
+
+        # 서버의 파일속성값을 같이 가져오기
+        # file_list = ssh.getFileAttrListFromHost('./temp_old')
+        # for file in file_list:
+        #     ic(file)
+
+        # 서버의 폴더삭제
+        # ssh.deleteHostFolder('./temp_old')
 
     except Exception as e:
         ic('Exception:', e)
