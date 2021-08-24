@@ -52,6 +52,24 @@ class MySSH():
     #######################################################################################
     # Execute SUDO Shell Command
     #######################################################################################
+    '''
+    :param str command: the command to execute
+    :param int bufsize:
+        interpreted the same way as by the built-in ``file()`` function in
+        Python
+    :param int timeout:
+        set command's channel timeout. See `.Channel.settimeout`
+    :param bool get_pty:
+        Request a pseudo-terminal from the server (default ``False``).
+        See `.Channel.get_pty`
+    :param dict environment:
+        a dict of shell environment variables, to be merged into the
+        default environment that the remote command executes within.
+
+        .. warning::
+            Servers may silently reject some environment variables; see the
+            warning in `.Channel.set_environment_variable` for details.
+    '''
     def sudoCommand(self, command, isReturn=False):
         stdin, stdout, stderr = self.client.exec_command('sudo ' + command, get_pty=True)
 
