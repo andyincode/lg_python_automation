@@ -55,12 +55,100 @@ class MySSH():
     def sudoCommand(self, command, isReturn=False):
         stdin, stdout, stderr = self.client.exec_command('sudo ' + command, get_pty=True)
 
-        time.sleep(5)
         stdin.write(self.password + '\n')
         stdin.flush()
 
+        # if isReturn:
+        #     return stdout.readlines()
+
+        readed = stdout.readlines()
         if isReturn:
-            return stdout.readlines()
+            return readed
+
+    #######################################################################################
+    # Get File From Host (SFTP)
+    # srcFilePath: Server(host), dstFilePath: Local(PC, Client)
+    #######################################################################################
+    def getFromHost(self, srcFilePath, dstFilePath):
+        if self.ftp_client is None:
+            # Get SFTP object from SSHClient
+            self.ftp_client = self.client.open_sftp()
+
+        self.ftp_client.get(srcFilePath, dstFilePath)
+
+    ######################################################################
+    # Put File from Host (SFTP)
+    # srcFilePath: Local(PC, client), dstFilePath: Server(host)
+    def putToHost(self, srcFilePath, dstFilePath):
+        if self.ftp_client is None:
+            # Get SFTP object from SSHClient
+            self.ftp_client = self.client.open_sftp()
+        self.ftp_client.put(srcFilePath, dstFilePath)
+
+    ######################################################################
+    # Rename file to host
+    # FilePath: Server(host) dstFilePath: Server(host)
+    def renameHostFile(self, srcFilePath, dstFilePath):
+        if self.ftp_client is None:
+            # Get SFTP object from SSHClient
+            self.ftp_client = self.client.open_sftp()
+        self.ftp_client.rename(srcFilePath, dstFilePath)
+
+    ######################################################################
+    # Delete file to host
+    # srcFilePath: Server(host)
+    def deleteHostFile(self, srcFilePath):
+        if self.ftp_client is None:
+            # Get SFTP object from SSHClient
+            self.ftp_client = self.client.open_sftp()
+        self.ftp_client.remove(srcFilePath)
+
+    ######################################################################
+    # Get file list of host
+    # srcFilePath: Server(host)
+    def getFileListFromHost(self, srcFilePath):
+        if self.ftp_client is None:
+            # Get SFTP object from SSHClient
+            self.ftp_client = self.client.open_sftp()
+        return self.ftp_client.listdir(srcFilePath)
+
+    ######################################################################
+    # Get file list of host
+    # srcFilePath: Server(host)
+    def getFileAttrListFromHost(self, srcFilePath):
+        if self.ftp_client is None:
+            # Get SFTP object from SSHClient
+            self.ftp_client = self.client.open_sftp()
+        return self.ftp_client.listdir_attr(srcFilePath)
+
+    ######################################################################
+    # Delete folder of host
+    # srcFilePath: Server(host)
+    def deleteHostFolder(self, srcFilePath):
+        if self.ftp_client is None:
+            # Get SFTP object from SSHClient
+            self.ftp_client = self.client.open_sftp()
+
+        # # Only current folder only
+        # file_list = self.getFileListFromHost(srcFilePath)
+        # for file in file_list:
+        #     file_path = os.path.join(srcFilePath, file)
+        #     file_path = file_path.replace('\\', '/')
+        #     self.deleteHostFile(file_path)
+
+        # Delete all subflder recursive
+        file_attr_list = self.ftp_client.listdir_attr(srcFilePath)
+        for file_attr in file_attr_list:
+            path = os.path.join(srcFilePath, file_attr.filename)
+            path = path.replace('\\', '/')
+            # Path is Folder type
+            if stat.S_ISDIR(file_attr.st_mode):
+                self.deleteHostFolder(path)
+            # Path is File type
+            else:
+                self.deleteHostFile(path)
+
+        self.ftp_client.rmdir(srcFilePath)
 
 if __name__ == '__main__':
     ssh = MySSH()
@@ -106,7 +194,10 @@ if __name__ == '__main__':
 
         # sudo 실행불가
         # ssh.exeCommand('sudo mkdir /mytemp;student;')
-        ssh.sudoCommand('mkdir /mytemp')
+        # ssh.sudoCommand('mkdir /mytemp')
+
+        # 서버로 부터 파일 가져오기
+        ssh.getFromHost('./process_list.txt', 'process_list.txt')
 
     except Exception as e:
         ic('Exception:', e)
