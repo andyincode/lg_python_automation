@@ -186,21 +186,21 @@ if __name__ == "__main__":
     # ag.mouseScrollUp(1000)
     # ag.mouseScrollDown(1000)
 
-    # KB Write
-    ag.kbWrite('Hello')
-    ag.kbWrite('Hello', 5, True)  # 5초간격으로 Hello를 한글자씩 입력후 스크린샷
+    # # KB Write
+    # ag.kbWrite('Hello')
+    # ag.kbWrite('Hello', 1, True)  # 5초간격으로 Hello를 한글자씩 입력후 스크린샷
 
     # KB PresseKey
-    ag.kbPressKey('win')  # Win키
-    ag.kbPressKey('num0', 10, 1)  # 1초 간격으로 0을 10번 입력
+    # ag.kbPressKey('win')  # Win키
+    # ag.kbPressKey('num0', 10, 1)  # 1초 간격으로 0을 10번 입력
 
-    # KG Hotkey
-    ag.kbHotKey('ctrl', 'shift', 'esc')  # 작업관리자
+    # # KG Hotkey
+    # ag.kbHotKey('ctrl', 'shift', 'esc')  # 작업관리자
 
-    # Keboard Key Down/Up
-    ag.kbKeyDown('ctrl')
-    ag.kbKeyDown('shift')
-    ag.kbKeyDown('esc')
-    ag.kbKeyUp('esc')
-    ag.kbKeyUp('shift')
-    ag.kbKeyUp('ctrl')
+    # # Keboard Key Down/Up
+    # ag.kbKeyDown('ctrl')
+    # ag.kbKeyDown('shift')
+    # ag.kbKeyDown('esc')
+    # ag.kbKeyUp('esc')
+    # ag.kbKeyUp('shift')
+    # ag.kbKeyUp('ctrl')
