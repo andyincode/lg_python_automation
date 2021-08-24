@@ -133,6 +133,46 @@ class AutoGui:
     def kbKeyUp(self, key_name):
         pyautogui.keyUp(key_name)
 
+    # ScreenShot (Save to file or return as Image object of pillow
+    def screenshot(self, file_name=None):
+        img = pyautogui.screenshot(file_name)
+        return img
+
+    # Get Image location in screen
+    def getPositionOfImage(self, image_path, is_center=False, is_fast_mode=False):
+        position = pyautogui.locateOnScreen(image_path, grayscale=is_fast_mode)
+
+        if position is not None:
+            if is_center:
+                position = pyautogui.center(position)
+            else:
+                position = Point(position.left, position.top)
+            return position
+        else:
+            return position
+
+        # Use function
+        # if is_center:
+        #     position = pyautogui.locateCenterOnScreen(image_path, grayscale=is_fast_mode)
+        # else:
+        #     position = pyautogui.locateOnScreen(image_path, grayscale=is_fast_mode)
+        # return position
+
+    def getPositionListOfImage(self, image_path, is_center=False, is_fast_mode=False):
+        positions = list(pyautogui.locateAllOnScreen(image_path, grayscale=is_fast_mode))
+
+        position_list = []
+        for position in positions:
+            if is_center:
+                position_list.append(pyautogui.center(position))
+            else:
+                position_list.append(Point(position.left, position.top))
+        return position_list
+
+    # Click Image
+    def clickImage(self, file_name):
+        pyautogui.click(file_name)
+
 if __name__ == "__main__":
     # Create Object
     ag = AutoGui()
