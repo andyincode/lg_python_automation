@@ -2,6 +2,7 @@ import pyautogui
 from pyautogui import *
 from icecream import ic
 import time
+from datetime import datetime
 
 class AutoGui:
 
@@ -141,6 +142,7 @@ class AutoGui:
     # Get Image location in screen
     def getPositionOfImage(self, image_path, is_center=False, is_fast_mode=False):
         position = pyautogui.locateOnScreen(image_path, grayscale=is_fast_mode)
+        ic(position)
 
         if position is not None:
             if is_center:
@@ -244,3 +246,29 @@ if __name__ == "__main__":
     # ag.kbKeyUp('esc')
     # ag.kbKeyUp('shift')
     # ag.kbKeyUp('ctrl')
+
+    # # ScreenShot
+    # now = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
+    # ag.screenshot('%s.png' % now)
+
+    # Get Postion of Image
+    time.sleep(3)
+    # position = ag.getPositionOfImage('7.png')
+    # ic('Left/Top Position:', position)
+    # ag.mouseClick(position.x, position.y)
+    # position = center_position = ag.getPositionOfImage('7.png', is_center=True, is_fast_mode=True)
+    # ic('Center Position:', position)
+    # ag.mouseClick(position.x, position.y)
+
+    # Get Position List of Image
+    # position_list = ag.getPositionListOfImage('7.png')
+    # for position in position_list:
+    #     ic('Left/Top Position:', position)
+    #     ag.mouseClick(position.x, position.y)
+    # position_list = center_position = ag.getPositionListOfImage('7.png', is_center=True, is_fast_mode=True)
+    # for position in position_list:
+    #     ic('Center Position:', position)
+    #     ag.mouseClick(position.x, position.y)
+
+    # # Click Image
+    # ag.clickImage('7.png')
