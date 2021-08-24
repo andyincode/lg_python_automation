@@ -2,9 +2,10 @@ from lec_pyautogui.lec_pyautogui import AutoGui
 import time
 import pyperclip
 from datetime import datetime
-
-with open('pw.txt', 'r') as f:
-    password = f.readline()
+#
+# with open('pw.txt', 'r') as f:
+#     password = f.readline()
+password = ''
 
 # 객체생성
 ag = AutoGui()
