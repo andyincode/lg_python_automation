@@ -17,9 +17,9 @@ def on_scroll(x, y, dx, dy):
     print('Scrolled {0} at {1}'.format('down' if dy < 0 else 'up', (x, y)))
     print('Scrolled {0} at {1}'.format('left' if dx < 0 else 'right', (x, y)))
 
-with mouse.Listener(on_move=on_move, on_click=on_click, on_scroll=on_scroll) as listener:
-        listener.join()
+# with mouse.Listener(on_move=on_move, on_click=on_click, on_scroll=on_scroll) as listener:
+#     listener.join()
 
-# listener = mouse.Listener(on_move=on_move, on_click=on_click, on_scroll=on_scroll)
-# listener.start()
-# listener.join()
+listener = mouse.Listener(on_move=on_move, on_click=on_click, on_scroll=on_scroll)
+listener.start()
+listener.join()
