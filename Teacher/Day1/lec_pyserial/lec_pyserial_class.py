@@ -15,8 +15,12 @@ class MySerial:
     ##############################################################################################
     def openSerial(self, port, baudrate=9600, bytesize=serial.EIGHTBITS, parity=serial.PARITY_NONE,
                    stopbits=serial.STOPBITS_ONE, timeout=None, xonxoff=False, rtscts=False, dsrdtr=False):
+
+
         # 시리얼객체 생성
         self.ser = serial.Serial()
+
+        self.ser.close()
 
         # 시리얼포트 설정
         self.ser.port = port
@@ -64,6 +68,9 @@ class MySerial:
             readed += data
             if data == code:
                 return readed[:-1]
+
+    def close(self):
+        self.ser.close()
 
 if __name__ == '__main__':
     # 객체생성

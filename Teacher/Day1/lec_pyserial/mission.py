@@ -26,6 +26,7 @@ ser.openSerial('com2')
 # a = True
 # if a == True: ==> if a is True:
 
+ic('Program is started...')
 while True:
     readed = ser.readUntilExitCode(b'\x0d')
 
@@ -42,6 +43,7 @@ while True:
     # 프로그램 종료조건 'exit' 문자열 비교
     # EXIT, Exit, exit, ...
     if readed.lower() == 'exit':
+        ser.close()
         break
 
     datalist = readed.split(' ')
@@ -78,7 +80,15 @@ while True:
 
     response = '%s %s %s\r\n' % (command[1], setId, response) # a 01 OK01x
 
-    ser.writePortUnicode(response)
+    jsonData = {'command':command, 'setId':setId, 'value':value, 'response':response[:9+1]}
+    jsonString = json.dumps(jsonData)
+    ic(jsonString)
+    now = datetime.now().strftime('[%Y-%m-%d %H:%M:%S] ')
 
+    with open('command.log', 'a', encoding='utf8') as f:
+        f.write(now + jsonString + '\n')
+
+    ser.writePortUnicode(response)
+ic('Done')
 
 
