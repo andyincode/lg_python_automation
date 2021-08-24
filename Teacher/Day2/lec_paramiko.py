@@ -38,6 +38,15 @@ class MySSH():
         else:
             return self.client.get_transport().is_alive()
 
+    #######################################################################################
+    # Execute Shell Command
+    #######################################################################################
+    def exeCommand(self, command, isReturn=False):
+        stdin, stdout, stderr = self.client.exec_command(command)
+
+        if isReturn is True:
+            return stdout.readlines()
+
 if __name__ == '__main__':
     ssh = MySSH()
     # elias.kim@lge.com
@@ -46,5 +55,21 @@ if __name__ == '__main__':
             ic('SSH is connected')
         else:
             ic('Connection is failed')
+            exit()
+
+        # 현재 프로세스 목록파일 만들기
+        # ssh.exeCommand('ps -ef > process_list.txt', False)
+
+        # ls-al 명령어로 파일목록 가져오기
+        # filelist = ssh.exeCommand('ls -al', True)
+        #
+        # for file in filelist:
+        #     # print(file, end='')
+        #     # print(file[:-1])
+        #     ic(file[:-1])
+
+        # Temp 폴더로 이동 후, 파일목록을 가져오기
+
+
     except Exception as e:
         ic('Exception:', e)
