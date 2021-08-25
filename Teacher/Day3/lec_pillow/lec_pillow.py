@@ -148,5 +148,4 @@ def apply_filter(img_file_path, filter):
 
 
 if __name__ == '__main__':
-    img_info = get_info('비숑.jpg')
-    ic(img_info)
+    img_file_path = 'car.jpg'
