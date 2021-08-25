@@ -45,7 +45,8 @@ li_list = ul.find_elements_by_tag_name('li') # lst_detail_t1 하위에 있는 li
 
 for li in li_list:
     detail_link = li.find_element_by_tag_name('a')
-    detail_link = 'https://movie.naver.com' + detail_link.get_attribute('href')
+    # detail_link = 'https://movie.naver.com' + detail_link.get_attribute('href')
+    detail_link = detail_link.get_attribute('href')
     print('Detail Link:', detail_link)
 
     code = detail_link.split('=')[1]
