@@ -152,21 +152,26 @@ def apply_filter(img_file_path, filter):
 
 # Merge Image
 class MergeImage:
+    # W x H 사이즈 설정
     def set_matrix(self, rows, columns):
         self.rows = rows
         self.columns = columns
 
+    # 기본 사이즈 설정
     def set_default_image_size(self, width, height):
         self.width = width
         self.height = height
 
+    # Merge 할 빈 이미지 생성
     def create_merged_image(self):
         self.new_image = Image.new('RGB', (self.width * self.columns, self.height * self.rows))
 
+    # 특정 row, column에 이미지 붙여넣기
     def paste_image(self, row, column, img_file_path):
         img = Image.open(img_file_path)
         self.new_image.paste(img, (self.width * column, self.height * row))
 
+    # 이미지 저장
     def save(self, img_file_path):
         self.new_image.save(img_file_path)
 
@@ -175,35 +180,35 @@ if __name__ == '__main__':
 
     ########################################################################################
     # 이미지 정보 출력
-    # ic(get_info(img_file_path))
+    ic(get_info(img_file_path))
 
     ########################################################################################
     # 이미지 포맷 변경
-    # convert_format(img_file_path, 'png')
-    # ic(get_info('car.png'))
-    # convert_format(img_file_path, 'bmp')
-    # ic(get_info('car.bmp'))
+    convert_format(img_file_path, 'png')
+    ic(get_info('car.png'))
+    convert_format(img_file_path, 'bmp')
+    ic(get_info('car.bmp'))
 
     ########################################################################################
     # 썸네일 이미지 만들기
-    # make_thumbnail(img_file_path, width=100, height=100)
+    make_thumbnail(img_file_path, width=100, height=100)
 
     ########################################################################################
     # 이미지 잘라내기
-    # crop_image(img_file_path, 100, 100, 200, 200)
+    crop_image(img_file_path, 100, 100, 200, 200)
 
     ########################################################################################
     # 이미지 크기변경
-    # resize_image(img_file_path, 100, 100)
+    resize_image(img_file_path, 100, 100)
 
     ########################################################################################
     # 이미지 회전
-    # rotate_image(img_file_path, 90)
-    # rotate_image(img_file_path, 180)
-    # rotate_image(img_file_path, 270)
-    # rotate_image(img_file_path, 90, False)
-    # rotate_image(img_file_path, 180, False)
-    # rotate_image(img_file_path, 270, False)
+    rotate_image(img_file_path, 90)
+    rotate_image(img_file_path, 180)
+    rotate_image(img_file_path, 270)
+    rotate_image(img_file_path, 90, False)
+    rotate_image(img_file_path, 180, False)
+    rotate_image(img_file_path, 270, False)
 
     ########################################################################################
     # 이미지에 글쓰기
@@ -217,3 +222,18 @@ if __name__ == '__main__':
     for filter in filter_list:
         apply_filter(img_file_path, filter)
 
+    ########################################################################################
+    # 이미지 합치기
+    img_file_path = 'resize_car.jpg'
+
+    row = 2
+    column = 3
+    merge = MergeImage()
+    merge.set_matrix(row, column)
+    merge.set_default_image_size(100, 100)
+    merge.create_merged_image()
+    count = 0
+    for _row in range(row):
+        for _column in range(column):
+            merge.paste_image(_row, _column, img_file_path)
+    merge.save('merge_car.jpg')
