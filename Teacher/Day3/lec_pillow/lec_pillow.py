@@ -150,6 +150,25 @@ def apply_filter(img_file_path, filter):
     file_name = os.path.basename(img_file_path)  # car.jpg
     img.save(os.path.join(dir, filter.name + '_' + file_name))  # images/thumb_car.jpg
 
+# Merge Image
+class MergeImage:
+    def set_matrix(self, rows, columns):
+        self.rows = rows
+        self.columns = columns
+
+    def set_default_image_size(self, width, height):
+        self.width = width
+        self.height = height
+
+    def create_merged_image(self):
+        self.new_image = Image.new('RGB', (self.width * self.columns, self.height * self.rows))
+
+    def paste_image(self, row, column, img_file_path):
+        img = Image.open(img_file_path)
+        self.new_image.paste(img, (self.width * column, self.height * row))
+
+    def save(self, img_file_path):
+        self.new_image.save(img_file_path)
 
 if __name__ == '__main__':
     img_file_path = 'car.jpg'
@@ -195,4 +214,6 @@ if __name__ == '__main__':
     filter_list = [ImageFilter.BLUR, ImageFilter.CONTOUR, ImageFilter.DETAIL,
                    ImageFilter.EDGE_ENHANCE, ImageFilter.EDGE_ENHANCE_MORE, ImageFilter.EMBOSS, ImageFilter.FIND_EDGES,
                    ImageFilter.SHARPEN, ImageFilter.SMOOTH, ImageFilter.SMOOTH_MORE]
+    for filter in filter_list:
+        apply_filter(img_file_path, filter)
 
