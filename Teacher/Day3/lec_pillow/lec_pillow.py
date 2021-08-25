@@ -6,6 +6,9 @@ import os
 from icecream import ic
 
 # Get File Information
+from pygments.formatters import img
+
+
 def get_info(img_file_path):
     img = Image.open(img_file_path)
     ic(img)
@@ -14,8 +17,7 @@ def get_info(img_file_path):
              'Format Desc':img.format_description,
              'Width':img.width,
              'Height':img.height,
-             'Mode':img.mode,
-             'Bit':img.bits})
+             'Mode':img.mode})
 
 # Convert Image Format
 def convert_format(img_file_path, format):
@@ -25,6 +27,7 @@ def convert_format(img_file_path, format):
     img.save(path)
 
 # Make Thumbnail Image
+# 주어진 길이값을 기준으로 이미지의 가로/세로 중 큰값을 기준으로 작은 값을 비율에 맞게 조절
 """
 Make this image into a thumbnail.  This method modifies the
 image to contain a thumbnail version of itself, no larger than
@@ -120,13 +123,14 @@ def resize_image(img_file_path, width, height):
     img.save(os.path.join(dir, 'resize_' + file_name))  # images/thumb_car.jpg
 
 # Rotate Image
-def rotate_image(img_file_path, degree):
+def rotate_image(img_file_path, degree, is_keep_size=True):
     img = Image.open(img_file_path)
     # img = img.rotate(degree)
-    img = img.rotate(degree, expand=True)
+    img = img.rotate(degree, expand=is_keep_size)
     dir = os.path.dirname(img_file_path)  # images/car.jpg -> imgaes/
     file_name = os.path.basename(img_file_path)  # car.jpg
-    img.save(os.path.join(dir, 'rotate_' + file_name))  # images/thumb_car.jpg
+    file_name = 'rotate_%s_' % degree + file_name
+    img.save(os.path.join(dir, file_name))  # images/thumb_car.jpg
 
 # Type text on image
 def draw_text_on_image(img_file_path, xPos, yPos, text, size, color):
@@ -149,3 +153,46 @@ def apply_filter(img_file_path, filter):
 
 if __name__ == '__main__':
     img_file_path = 'car.jpg'
+
+    ########################################################################################
+    # 이미지 정보 출력
+    # ic(get_info(img_file_path))
+
+    ########################################################################################
+    # 이미지 포맷 변경
+    # convert_format(img_file_path, 'png')
+    # ic(get_info('car.png'))
+    # convert_format(img_file_path, 'bmp')
+    # ic(get_info('car.bmp'))
+
+    ########################################################################################
+    # 썸네일 이미지 만들기
+    # make_thumbnail(img_file_path, width=100, height=100)
+
+    ########################################################################################
+    # 이미지 잘라내기
+    # crop_image(img_file_path, 100, 100, 200, 200)
+
+    ########################################################################################
+    # 이미지 크기변경
+    # resize_image(img_file_path, 100, 100)
+
+    ########################################################################################
+    # 이미지 회전
+    # rotate_image(img_file_path, 90)
+    # rotate_image(img_file_path, 180)
+    # rotate_image(img_file_path, 270)
+    # rotate_image(img_file_path, 90, False)
+    # rotate_image(img_file_path, 180, False)
+    # rotate_image(img_file_path, 270, False)
+
+    ########################################################################################
+    # 이미지에 글쓰기
+    draw_text_on_image(img_file_path, 500, 500, 'Hello World', 20, 'red')
+
+    ########################################################################################
+    # 필터적용
+    filter_list = [ImageFilter.BLUR, ImageFilter.CONTOUR, ImageFilter.DETAIL,
+                   ImageFilter.EDGE_ENHANCE, ImageFilter.EDGE_ENHANCE_MORE, ImageFilter.EMBOSS, ImageFilter.FIND_EDGES,
+                   ImageFilter.SHARPEN, ImageFilter.SMOOTH, ImageFilter.SMOOTH_MORE]
+
