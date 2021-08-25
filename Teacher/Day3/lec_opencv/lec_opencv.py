@@ -40,7 +40,7 @@ class WebCam:
         return ret, file_name
 
     # Capture Video Stream until 'q' input
-    def captue_video(self, width=1080, height=720, isMono=False, flip=None):
+    def capture_video(self, width=1080, height=720, isMono=False, flip=None):
         cap = cv2.VideoCapture(self.port_num, cv2.CAP_DSHOW)
         cap.set(cv2.CAP_PROP_FRAME_WIDTH, width)
         cap.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
@@ -58,12 +58,14 @@ class WebCam:
 
             cv2.imshow('frame', frame)
 
+            # 1 is 1/1000
             if cv2.waitKey(1) == ord('q'):
                 break
             elif ret is False:
                 break
 
         cap.release()
+        # 스트림창 닫기
         cv2.destroyAllWindows()
 
     # Record video stream until 'q' input
@@ -93,6 +95,7 @@ class WebCam:
 
                 cv2.imshow('frame', frame)
 
+                # FPS(Frame Per Second): 25
                 if cv2.waitKey(int(1000/fps)) == ord('q'):
                     break
             else:
@@ -134,6 +137,21 @@ if __name__ == "__main__":
         webCam.set_port(portNum)
         ic('Port Number:', portNum)
 
-        file_name = datetime.now().strftime('%Y-%m-%d_%H-%M-%S') + '.png'
-        ic(webCam.capture_image(file_name))
+        #########################################################################################
+        # Capture Image(Snapshot)
+        # file_name = datetime.now().strftime('%Y-%m-%d_%H-%M-%S') + '.png'
+        # ic(webCam.capture_image(file_name))
 
+        #########################################################################################
+        # Capture Video Stream
+        # webCam.capture_video()
+        # webCam.capture_video(isMono=True)
+        # webCam.capture_video(flip=0)  # 상/하 반전
+        # webCam.capture_video(flip=1)  # 좌/우 반전
+
+        #########################################################################################
+        # Record Video Stream
+        # file_name = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
+        # webCam.record_video(file_name)
+        # webCam.record_video(file_name, flip=0) # 상/하 반전
+        # webCam.record_video(file_name, flip=1) # 좌/우 반전
