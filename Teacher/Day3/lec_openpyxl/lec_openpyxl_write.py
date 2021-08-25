@@ -17,12 +17,12 @@ ws.title = 'my_data'
 ws['A1'] = 'HelloWorld'
 
 # Insert Row
-row = ['1', '2', '3', '4', '5']
+row = [1,2,3,4,5]
 ws.append(row)
 
 # Use Function
 # ws['A3'] = '=SUM(1+3)' # =SUM(A1:B1)
-ws['A3'] = '=SUM(A2:B2)' # =SUM(A1:B1)
+ws['A3'] = '=SUM(A2:B2)' # =SUM(A1:B1) Cell 값이 숫자로 입력되야만 가능
 
 # Insert DateTime
 ws['A4'] = datetime.now()
