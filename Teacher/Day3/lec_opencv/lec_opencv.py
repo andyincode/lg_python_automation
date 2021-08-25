@@ -113,12 +113,14 @@ class WebCam:
 
         cap.set(cv2.CAP_PROP_FPS, fps)
         while cap.isOpened():
-            ret, frame = cap.read()
+            ret, frame = cap.read() # 동영상파일의 한 프레임을 read
 
             if ret is True:
                 cv2.imshow('frame', frame)
 
                 if cv2.waitKey(int(1000/fps)) == ord('q'):
+                # if cv2.waitKey(1) == ord('q'): # 빨리 플레이
+                # if cv2.waitKey(int(1000/5)) == ord('q'): # 느리게 플레이
                     break
             else:
                 break
@@ -139,19 +141,23 @@ if __name__ == "__main__":
 
         #########################################################################################
         # Capture Image(Snapshot)
-        # file_name = datetime.now().strftime('%Y-%m-%d_%H-%M-%S') + '.png'
-        # ic(webCam.capture_image(file_name))
+        file_name = datetime.now().strftime('%Y-%m-%d_%H-%M-%S') + '.png'
+        ic(webCam.capture_image(file_name))
 
         #########################################################################################
         # Capture Video Stream
-        # webCam.capture_video()
-        # webCam.capture_video(isMono=True)
-        # webCam.capture_video(flip=0)  # 상/하 반전
-        # webCam.capture_video(flip=1)  # 좌/우 반전
+        webCam.capture_video()
+        webCam.capture_video(isMono=True)
+        webCam.capture_video(flip=0)  # 상/하 반전
+        webCam.capture_video(flip=1)  # 좌/우 반전
 
         #########################################################################################
         # Record Video Stream
-        # file_name = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
-        # webCam.record_video(file_name)
-        # webCam.record_video(file_name, flip=0) # 상/하 반전
-        # webCam.record_video(file_name, flip=1) # 좌/우 반전
+        file_name = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
+        webCam.record_video(file_name)
+        webCam.record_video(file_name, flip=0) # 상/하 반전
+        webCam.record_video(file_name, flip=1) # 좌/우 반전
+
+        #########################################################################################
+        # Play Video
+        webCam.play_video('2021-08-25_14-03-03.avi')
